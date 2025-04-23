@@ -60,7 +60,8 @@ class ContatosController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $contato = Contato::find($id);
+        return view('contatos.edit', array('contato' => $contato));
     }
 
     /**
