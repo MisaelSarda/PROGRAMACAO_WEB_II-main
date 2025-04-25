@@ -24,3 +24,4 @@ use App\Http\Controllers\ColaboradorController;
 Route::middleware(['auth'])->group(function () {
     Route::resource('colaboradores', ColaboradorController::class);
 });
+

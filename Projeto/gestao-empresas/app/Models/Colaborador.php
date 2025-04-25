@@ -12,4 +12,10 @@ class Colaborador extends Model
     {
         return $this->belongsTo(Empresa::class);
     }
+
+    public function documentos()
+{
+    return $this->hasMany(Documento::class);
+}
+
 }
