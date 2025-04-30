@@ -25,3 +25,16 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('colaboradores', ColaboradorController::class);
 });
 
+use App\Http\Controllers\CadastroController;
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/cadastro', [CadastroController::class, 'index'])->name('cadastro.index');
+});
+
+Route::resource('documentos', DocumentoController::class)->middleware(['auth']);
+
+use App\Http\Controllers\EmpresaController;
+
+Route::resource('empresas', EmpresaController::class);
+
