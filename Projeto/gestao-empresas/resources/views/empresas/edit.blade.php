@@ -2,16 +2,16 @@
 
 @section('content')
 <div class="container">
-    <h1>Editar Empresa</h1>
+    <h1>Editar Região</h1>
 
-    <form action="{{ route('empresas.update', $empresa->id) }}" method="POST">
+    <form action="{{ route('regioes.update', $regiao->id) }}" method="POST">
         @csrf
         @method('PUT')
 
-        @include('empresas.form')
+        @include('regioes.form')
 
         <button type="submit" class="btn btn-primary">Atualizar</button>
-        <a href="{{ route('empresas.index') }}" class="btn btn-secondary">Cancelar</a>
+        <a href="{{ route('regioes.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 @endsection

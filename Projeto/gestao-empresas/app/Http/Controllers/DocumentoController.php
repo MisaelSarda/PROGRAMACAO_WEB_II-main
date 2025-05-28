@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Documento;
-use App\Models\Colaborador;
+use App\Models\Empresa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -11,66 +11,77 @@ class DocumentoController extends Controller
 {
     public function index()
     {
-        $documentos = Documento::with('colaborador.empresa')->get();
+        $documentos = Documento::with('empresa')->latest()->paginate(10);
         return view('documentos.index', compact('documentos'));
     }
 
     public function create()
     {
-        $colaboradores = Colaborador::with('empresa')->get();
-        return view('documentos.create', compact('colaboradores'));
+        $empresas = Empresa::all();
+        return view('documentos.create', compact('empresas'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'colaborador_id' => 'required|exists:colaboradors,id',
             'nome' => 'required|string|max:255',
-            'descricao' => 'nullable|string',
+            'tipo' => 'nullable|string|max:255',
             'validade' => 'required|date',
-            'arquivo' => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:2048',
+            'empresa_id' => 'required|exists:empresas,id',
+            'arquivo' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
-        $dados = $request->all();
+        $documento = new Documento();
+        $documento->nome = $request->nome;
+        $documento->tipo = $request->tipo;
+        $documento->validade = $request->validade;
+        $documento->empresa_id = $request->empresa_id;
 
         if ($request->hasFile('arquivo')) {
-            $arquivo = $request->file('arquivo')->store('documentos', 'public');
-            $dados['arquivo'] = $arquivo;
+            $documento->arquivo = $request->file('arquivo')->store('documentos', 'public');
         }
 
-        Documento::create($dados);
+        $documento->save();
 
-        return redirect()->route('documentos.index')->with('success', 'Documento cadastrado com sucesso.');
+        return redirect()->route('documentos.index')->with('success', 'Documento cadastrado com sucesso!');
+    }
+
+    public function show(Documento $documento)
+    {
+        return view('documentos.show', compact('documento'));
     }
 
     public function edit(Documento $documento)
     {
-        $colaboradores = Colaborador::all();
-        return view('documentos.edit', compact('documento', 'colaboradores'));
+        $empresas = Empresa::all();
+        return view('documentos.edit', compact('documento', 'empresas'));
     }
 
     public function update(Request $request, Documento $documento)
     {
         $request->validate([
-            'colaborador_id' => 'required|exists:colaboradors,id',
             'nome' => 'required|string|max:255',
-            'descricao' => 'nullable|string',
+            'tipo' => 'nullable|string|max:255',
             'validade' => 'required|date',
-            'arquivo' => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:2048',
+            'empresa_id' => 'required|exists:empresas,id',
+            'arquivo' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
-        $dados = $request->all();
+        $documento->nome = $request->nome;
+        $documento->tipo = $request->tipo;
+        $documento->validade = $request->validade;
+        $documento->empresa_id = $request->empresa_id;
 
         if ($request->hasFile('arquivo')) {
             if ($documento->arquivo) {
                 Storage::disk('public')->delete($documento->arquivo);
             }
-            $dados['arquivo'] = $request->file('arquivo')->store('documentos', 'public');
+            $documento->arquivo = $request->file('arquivo')->store('documentos', 'public');
         }
 
-        $documento->update($dados);
+        $documento->save();
 
-        return redirect()->route('documentos.index')->with('success', 'Documento atualizado com sucesso.');
+        return redirect()->route('documentos.index')->with('success', 'Documento atualizado com sucesso!');
     }
 
     public function destroy(Documento $documento)
@@ -81,6 +92,6 @@ class DocumentoController extends Controller
 
         $documento->delete();
 
-        return redirect()->route('documentos.index')->with('success', 'Documento excluído com sucesso.');
+        return redirect()->route('documentos.index')->with('success', 'Documento excluído com sucesso!');
     }
 }

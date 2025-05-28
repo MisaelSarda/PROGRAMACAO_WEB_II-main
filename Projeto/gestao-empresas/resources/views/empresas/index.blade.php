@@ -2,39 +2,33 @@
 
 @section('content')
 <div class="container">
-    <h1>Empresas</h1>
+    <h1>Regiões</h1>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <a href="{{ route('empresas.create') }}" class="btn btn-primary mb-3">Cadastrar Nova Empresa</a>
+    <a href="{{ route('regioes.create') }}" class="btn btn-primary mb-3">Cadastrar Nova Região</a>
 
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Nome</th>
-                <th>CNPJ</th>
-                <th>Email</th>
-                <th>Telefone</th>
-                <th>Endereço</th>
+                <th>Descrição</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($empresas as $empresa)
+            @foreach($regioes as $regiao)
                 <tr>
-                    <td>{{ $empresa->nome }}</td>
-                    <td>{{ $empresa->cnpj }}</td>
-                    <td>{{ $empresa->email }}</td>
-                    <td>{{ $empresa->telefone }}</td>
-                    <td>{{ $empresa->endereco }}</td>
+                    <td>{{ $regiao->nome }}</td>
+                    <td>{{ $regiao->descricao }}</td>
                     <td>
-                        <a href="{{ route('empresas.edit', $empresa->id) }}" class="btn btn-sm btn-warning">Editar</a>
-                        <form action="{{ route('empresas.destroy', $empresa->id) }}" method="POST" style="display:inline;">
+                        <a href="{{ route('regioes.edit', $regiao->id) }}" class="btn btn-sm btn-warning">Editar</a>
+                        <form action="{{ route('regioes.destroy', $regiao->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir esta empresa?')">Excluir</button>
+                            <button class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir esta região?')">Excluir</button>
                         </form>
                     </td>
                 </tr>

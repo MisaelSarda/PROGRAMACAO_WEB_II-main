@@ -2,16 +2,15 @@
 
 @section('content')
 <div class="container">
-    <h1>Cadastrar Nova Empresa</h1>
+    <h1>Cadastrar Nova Região</h1>
 
-    <form action="{{ route('empresas.store') }}" method="POST">
+    <form action="{{ route('regioes.store') }}" method="POST">
         @csrf
 
-        @include('empresas.form')
+        @include('regioes.form')
 
         <button type="submit" class="btn btn-success">Salvar</button>
-        <a href="{{ route('empresas.index') }}" class="btn btn-secondary">Cancelar</a>
+        <a href="{{ route('regioes.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 @endsection
-    
