@@ -27,7 +27,7 @@
 
     <div x-show="openCadastro" @click.away="openCadastro = false" class="absolute z-50 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
         <div class="py-1">
-            <a href="{{ route('empresas.create') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cadastrar Empresa</a>
+            <a href="{{ route('regioes.create') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cadastrar Região</a>
             <a href="{{ route('documentos.create') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cadastrar Documento</a>
         </div>
     </div>
