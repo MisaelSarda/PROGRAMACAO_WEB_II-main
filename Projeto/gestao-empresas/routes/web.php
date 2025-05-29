@@ -1,7 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ColaboradorController;
+use App\Http\Controllers\CadastroController;
+use App\Http\Controllers\DocumentoController;
+use App\Http\Controllers\RegiaoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,22 +23,9 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-use App\Http\Controllers\ColaboradorController;
-
 Route::middleware(['auth'])->group(function () {
     Route::resource('colaboradores', ColaboradorController::class);
-});
-
-use App\Http\Controllers\CadastroController;
-
-
-Route::middleware(['auth'])->group(function () {
     Route::get('/cadastro', [CadastroController::class, 'index'])->name('cadastro.index');
+    Route::resource('documentos', DocumentoController::class);
+    Route::resource('regioes', RegiaoController::class); // ← Aqui agora substitui as empresas
 });
-
-Route::resource('documentos', DocumentoController::class)->middleware(['auth']);
-
-use App\Http\Controllers\EmpresaController;
-
-Route::resource('empresas', EmpresaController::class);
-
