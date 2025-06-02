@@ -2,7 +2,8 @@
 
 @section('content')
 <div class="container">
-    <h1>Cadastrar Nova Região</h1>
+    <h1><strong>Cadastrar Nova Região</strong></h1>
+    <br>
 
     <form action="{{ route('regioes.store') }}" method="POST">
         @csrf

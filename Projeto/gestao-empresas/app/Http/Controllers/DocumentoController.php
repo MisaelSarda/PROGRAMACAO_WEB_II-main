@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Documento;
-use App\Models\Empresa;
+use App\Models\Regiao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -11,14 +11,14 @@ class DocumentoController extends Controller
 {
     public function index()
     {
-        $documentos = Documento::with('empresa')->latest()->paginate(10);
+        $documentos = Documento::with('regiao')->latest()->paginate(10);
         return view('documentos.index', compact('documentos'));
     }
 
     public function create()
     {
-        $empresas = Empresa::all();
-        return view('documentos.create', compact('empresas'));
+        $regioes = Regiao::all();
+        return view('documentos.create', compact('regioes'));
     }
 
     public function store(Request $request)
@@ -27,7 +27,7 @@ class DocumentoController extends Controller
             'nome' => 'required|string|max:255',
             'tipo' => 'nullable|string|max:255',
             'validade' => 'required|date',
-            'empresa_id' => 'required|exists:empresas,id',
+            'regiao_id' => 'required|exists:regioes,id',
             'arquivo' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
@@ -35,7 +35,7 @@ class DocumentoController extends Controller
         $documento->nome = $request->nome;
         $documento->tipo = $request->tipo;
         $documento->validade = $request->validade;
-        $documento->empresa_id = $request->empresa_id;
+        $documento->regiao_id = $request->regiao_id;
 
         if ($request->hasFile('arquivo')) {
             $documento->arquivo = $request->file('arquivo')->store('documentos', 'public');
@@ -53,8 +53,8 @@ class DocumentoController extends Controller
 
     public function edit(Documento $documento)
     {
-        $empresas = Empresa::all();
-        return view('documentos.edit', compact('documento', 'empresas'));
+        $regioes = Regiao::all();
+        return view('documentos.edit', compact('documento', 'regioes'));
     }
 
     public function update(Request $request, Documento $documento)
@@ -63,14 +63,14 @@ class DocumentoController extends Controller
             'nome' => 'required|string|max:255',
             'tipo' => 'nullable|string|max:255',
             'validade' => 'required|date',
-            'empresa_id' => 'required|exists:empresas,id',
+            'regiao_id' => 'required|exists:regioes,id',
             'arquivo' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
         $documento->nome = $request->nome;
         $documento->tipo = $request->tipo;
         $documento->validade = $request->validade;
-        $documento->empresa_id = $request->empresa_id;
+        $documento->regiao_id = $request->regiao_id;
 
         if ($request->hasFile('arquivo')) {
             if ($documento->arquivo) {
