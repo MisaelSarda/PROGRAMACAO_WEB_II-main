@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Documento;
 use App\Models\Regiao;
+use App\Models\Pessoa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -11,14 +12,15 @@ class DocumentoController extends Controller
 {
     public function index()
     {
-        $documentos = Documento::with('regiao')->latest()->paginate(10);
+        $documentos = Documento::with(['regiao', 'pessoa'])->latest()->paginate(10);
         return view('documentos.index', compact('documentos'));
     }
 
     public function create()
     {
         $regioes = Regiao::all();
-        return view('documentos.create', compact('regioes'));
+        $pessoas = Pessoa::all();
+        return view('documentos.create', compact('regioes', 'pessoas'));
     }
 
     public function store(Request $request)
@@ -28,6 +30,7 @@ class DocumentoController extends Controller
             'tipo' => 'nullable|string|max:255',
             'validade' => 'required|date',
             'regiao_id' => 'required|exists:regioes,id',
+            'pessoa_id' => 'required|exists:pessoas,id',
             'arquivo' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
@@ -36,6 +39,7 @@ class DocumentoController extends Controller
         $documento->tipo = $request->tipo;
         $documento->validade = $request->validade;
         $documento->regiao_id = $request->regiao_id;
+        $documento->pessoa_id = $request->pessoa_id;
 
         if ($request->hasFile('arquivo')) {
             $documento->arquivo = $request->file('arquivo')->store('documentos', 'public');
@@ -54,7 +58,8 @@ class DocumentoController extends Controller
     public function edit(Documento $documento)
     {
         $regioes = Regiao::all();
-        return view('documentos.edit', compact('documento', 'regioes'));
+        $pessoas = Pessoa::all();
+        return view('documentos.edit', compact('documento', 'regioes', 'pessoas'));
     }
 
     public function update(Request $request, Documento $documento)
@@ -64,6 +69,7 @@ class DocumentoController extends Controller
             'tipo' => 'nullable|string|max:255',
             'validade' => 'required|date',
             'regiao_id' => 'required|exists:regioes,id',
+            'pessoa_id' => 'required|exists:pessoas,id',
             'arquivo' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
@@ -71,6 +77,7 @@ class DocumentoController extends Controller
         $documento->tipo = $request->tipo;
         $documento->validade = $request->validade;
         $documento->regiao_id = $request->regiao_id;
+        $documento->pessoa_id = $request->pessoa_id;
 
         if ($request->hasFile('arquivo')) {
             if ($documento->arquivo) {
