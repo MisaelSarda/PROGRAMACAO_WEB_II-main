@@ -43,9 +43,12 @@ class RegiaoController extends Controller
         return redirect()->route('regioes.index')->with('success', 'Região atualizada com sucesso.');
     }
 
-    public function destroy(Regiao $regiao)
-    {
-        $regiao->delete();
-        return redirect()->route('regioes.index')->with('success', 'Região deletada com sucesso.');
-    }
+    public function destroy($id)
+{
+    $regiao = Regiao::findOrFail($id);
+    $regiao->delete();
+
+    return redirect()->route('regioes.index')->with('success', 'Região deletada com sucesso.');
+}
+
 }
