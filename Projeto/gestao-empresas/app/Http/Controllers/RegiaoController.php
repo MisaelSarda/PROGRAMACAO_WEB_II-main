@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Regiao;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreRegiaoRequest;
 
 class RegiaoController extends Controller
 {
     public function index()
     {
-        $regioes = Regiao::all();
-        return view('regioes.index', compact('regioes'));
+        return view('regioes.index', ['regioes' => Regiao::all()]);
     }
 
     public function create()
@@ -18,13 +18,9 @@ class RegiaoController extends Controller
         return view('regioes.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreRegiaoRequest $request)
     {
-        $request->validate([
-            'nome' => 'required|unique:regioes',
-        ]);
-
-        Regiao::create($request->all());
+        Regiao::create($request->validated());
         return redirect()->route('regioes.index')->with('success', 'Região cadastrada com sucesso.');
     }
 
@@ -33,22 +29,15 @@ class RegiaoController extends Controller
         return view('regioes.edit', compact('regiao'));
     }
 
-    public function update(Request $request, Regiao $regiao)
+    public function update(StoreRegiaoRequest $request, Regiao $regiao)
     {
-        $request->validate([
-            'nome' => 'required|unique:regioes,nome,' . $regiao->id,
-        ]);
-
-        $regiao->update($request->all());
+        $regiao->update($request->validated());
         return redirect()->route('regioes.index')->with('success', 'Região atualizada com sucesso.');
     }
 
-    public function destroy($id)
-{
-    $regiao = Regiao::findOrFail($id);
-    $regiao->delete();
-
-    return redirect()->route('regioes.index')->with('success', 'Região deletada com sucesso.');
-}
-
+    public function destroy(Regiao $regiao)
+    {
+        $regiao->delete();
+        return redirect()->route('regioes.index')->with('success', 'Região excluída com sucesso.');
+    }
 }

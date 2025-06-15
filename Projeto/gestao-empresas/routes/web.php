@@ -1,31 +1,29 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ColaboradorController;
-use App\Http\Controllers\CadastroController;
+use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\RegiaoController;
+use App\Models\Pessoa;
+use App\Models\Documento;
+use App\Models\Regiao;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('dashboard');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard', [
+            'pessoas' => \App\Models\Pessoa::count(),
+            'documentos' => \App\Models\Documento::count(),
+            'regioes' => \App\Models\Regiao::count(),
+        ]);
+    })->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::resource('pessoas', \App\Http\Controllers\PessoaController::class);
+    Route::resource('documentos', \App\Http\Controllers\DocumentoController::class);
+    Route::resource('regioes', \App\Http\Controllers\RegiaoController::class);
 });
 
 require __DIR__.'/auth.php';
-
-Route::middleware(['auth'])->group(function () {
-    Route::resource('colaboradores', ColaboradorController::class);
-    Route::get('/cadastro', [CadastroController::class, 'index'])->name('cadastro.index');
-    Route::resource('documentos', DocumentoController::class);
-    Route::resource('regioes', RegiaoController::class); // ← Aqui agora substitui as empresas
-});

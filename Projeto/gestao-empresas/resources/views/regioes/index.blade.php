@@ -1,38 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1>Regiões</h1>
+<div class="max-w-6xl mx-auto mt-8">
+    <div class="flex justify-between mb-4">
+        <h1 class="text-2xl font-bold">Lista de Regiões</h1>
+        <a href="{{ route('regioes.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Nova Região</a>
+    </div>
 
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">
+            {{ session('success') }}
+        </div>
     @endif
 
-    <a href="{{ route('regioes.create') }}" class="btn btn-primary mb-3">Cadastrar Nova Região</a>
-
-    <table class="table table-bordered">
-        <thead>
+    <table class="w-full table-auto border shadow-sm bg-white rounded">
+        <thead class="bg-gray-100">
             <tr>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Telefone</th>
-                <th>Endereço</th>
-                <th>Ações</th>
+                <th class="px-4 py-2 text-left">Nome</th>
+                <th class="px-4 py-2 text-left">Ações</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($regioes as $regiao)
-                <tr>
-                    <td>{{ $regiao->nome }}</td>
-                    <td>{{ $regiao->email }}</td>
-                    <td>{{ $regiao->telefone }}</td>
-                    <td>{{ $regiao->endereco }}</td>
-                    <td>
-                        <a href="{{ route('regioes.edit', $regiao->id) }}" class="btn btn-sm btn-warning">Editar</a>
-                        <form action="{{ route('regioes.destroy', $regiao->id) }}" method="POST" style="display:inline;">
+            @foreach ($regioes as $regiao)
+                <tr class="border-t">
+                    <td class="px-4 py-2">{{ $regiao->nome }}</td>
+                    <td class="px-4 py-2">
+                        <a href="{{ route('regioes.edit', $regiao) }}" class="text-blue-600 hover:underline">Editar</a>
+                        <form action="{{ route('regioes.destroy', $regiao) }}" method="POST" class="inline-block ml-2" onsubmit="return confirm('Tem certeza que deseja excluir?')">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir esta região?')">Excluir</button>
+                            <button type="submit" class="text-red-600 hover:underline">Excluir</button>
                         </form>
                     </td>
                 </tr>

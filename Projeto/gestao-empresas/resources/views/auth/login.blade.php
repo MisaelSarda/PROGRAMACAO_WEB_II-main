@@ -38,6 +38,11 @@
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
+        <div class="mt-4">
+    <a href="{{ route('register') }}" class="text-sm text-gray-600 hover:text-gray-900 underline">
+        {{ __('Criar uma conta') }}
+    </a>
+</div>
 
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}
