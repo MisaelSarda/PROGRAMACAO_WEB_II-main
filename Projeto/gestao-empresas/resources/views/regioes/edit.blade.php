@@ -4,6 +4,12 @@
 <div class="max-w-xl mx-auto bg-white p-6 mt-8 rounded shadow">
     <h1 class="text-2xl font-bold text-gray-800 mb-6">Editar Região</h1>
 
+    @if(session('success'))
+        <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <form action="{{ route('regioes.update', $regiao) }}" method="POST" class="space-y-4">
         @csrf
         @method('PUT')

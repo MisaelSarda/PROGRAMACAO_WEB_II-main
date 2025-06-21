@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Models;
 
@@ -10,5 +10,7 @@ class Regiao extends Model
     use HasFactory;
 
     protected $table = 'regioes'; 
-}
 
+    // Habilita atribuição em massa para o campo 'nome'
+    protected $fillable = ['nome'];
+}

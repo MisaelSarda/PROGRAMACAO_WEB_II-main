@@ -15,15 +15,17 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard', [
-            'pessoas' => \App\Models\Pessoa::count(),
-            'documentos' => \App\Models\Documento::count(),
-            'regioes' => \App\Models\Regiao::count(),
+            'pessoas' => Pessoa::count(),
+            'documentos' => Documento::count(),
+            'regioes' => Regiao::count(),
         ]);
     })->name('dashboard');
 
-    Route::resource('pessoas', \App\Http\Controllers\PessoaController::class);
-    Route::resource('documentos', \App\Http\Controllers\DocumentoController::class);
-    Route::resource('regioes', \App\Http\Controllers\RegiaoController::class);
+    Route::resource('pessoas', PessoaController::class);
+    Route::resource('documentos', DocumentoController::class);
+    Route::resource('regioes', RegiaoController::class)->parameters([
+        'regioes' => 'regiao'
+    ]);
 });
 
 require __DIR__.'/auth.php';

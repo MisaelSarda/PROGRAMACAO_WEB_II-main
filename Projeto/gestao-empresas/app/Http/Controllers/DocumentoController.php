@@ -23,16 +23,24 @@ class DocumentoController extends Controller
         return view('documentos.create', compact('pessoas', 'regioes'));
     }
 
-    public function store(StoreDocumentoRequest $request)
-    {
-        $data = $request->validated();
-        if ($request->hasFile('arquivo')) {
-            $data['arquivo'] = $request->file('arquivo')->store('documentos', 'public');
-        }
-        Documento::create($data);
-        return redirect()->route('documentos.index')->with('success', 'Documento cadastrado com sucesso.');
+   public function store(StoreDocumentoRequest $request)
+{
+    $data = $request->validated();
+
+    // Corrige o nome do campo conforme o banco
+    if (isset($data['validade'])) {
+        $data['data_validade'] = $data['validade'];
+        unset($data['validade']);
     }
 
+    if ($request->hasFile('arquivo')) {
+        $data['arquivo'] = $request->file('arquivo')->store('documentos', 'public');
+    }
+
+    Documento::create($data);
+
+    return redirect()->route('documentos.index')->with('success', 'Documento cadastrado com sucesso.');
+}
     public function edit(Documento $documento)
     {
         $pessoas = Pessoa::all();
@@ -40,15 +48,23 @@ class DocumentoController extends Controller
         return view('documentos.edit', compact('documento', 'pessoas', 'regioes'));
     }
 
-    public function update(StoreDocumentoRequest $request, Documento $documento)
-    {
-        $data = $request->validated();
-        if ($request->hasFile('arquivo')) {
-            $data['arquivo'] = $request->file('arquivo')->store('documentos', 'public');
-        }
-        $documento->update($data);
-        return redirect()->route('documentos.index')->with('success', 'Documento atualizado com sucesso.');
+   public function update(StoreDocumentoRequest $request, Documento $documento)
+{
+    $data = $request->validated();
+
+    if (isset($data['validade'])) {
+        $data['data_validade'] = $data['validade'];
+        unset($data['validade']);
     }
+
+    if ($request->hasFile('arquivo')) {
+        $data['arquivo'] = $request->file('arquivo')->store('documentos', 'public');
+    }
+
+    $documento->update($data);
+
+    return redirect()->route('documentos.index')->with('success', 'Documento atualizado com sucesso.');
+}
 
     public function destroy(Documento $documento)
     {
