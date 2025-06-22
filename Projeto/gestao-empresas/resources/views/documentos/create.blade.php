@@ -21,8 +21,8 @@
 
         <div>
             <label class="block text-sm font-medium text-gray-700">Data de Validade</label>
-            <input type="date" name="validade" value="{{ old('validade') }}" class="w-full border rounded px-3 py-2 shadow-sm">
-            @error('validade')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
+            <input type="date" name="data_validade" value="{{ old('data_validade') }}" class="w-full border rounded px-3 py-2 shadow-sm">
+            @error('data_validade')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
         <div>
@@ -35,7 +35,9 @@
             <label class="block text-sm font-medium text-gray-700">Pessoa</label>
             <select name="pessoa_id" class="w-full border rounded px-3 py-2 shadow-sm">
                 @foreach($pessoas as $pessoa)
-                    <option value="{{ $pessoa->id }}">{{ $pessoa->nome }}</option>
+                    <option value="{{ $pessoa->id }}" {{ old('pessoa_id') == $pessoa->id ? 'selected' : '' }}>
+                        {{ $pessoa->nome }}
+                    </option>
                 @endforeach
             </select>
             @error('pessoa_id')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
@@ -45,7 +47,9 @@
             <label class="block text-sm font-medium text-gray-700">Região</label>
             <select name="regiao_id" class="w-full border rounded px-3 py-2 shadow-sm">
                 @foreach($regioes as $regiao)
-                    <option value="{{ $regiao->id }}">{{ $regiao->nome }}</option>
+                    <option value="{{ $regiao->id }}" {{ old('regiao_id') == $regiao->id ? 'selected' : '' }}>
+                        {{ $regiao->nome }}
+                    </option>
                 @endforeach
             </select>
             @error('regiao_id')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
@@ -53,7 +57,7 @@
 
         <div class="flex justify-between">
             <a href="{{ route('documentos.index') }}" class="text-gray-600 hover:underline">← Voltar</a>
-            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Salvar</button>
+            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Salvar</button>
         </div>
     </form>
 </div>
