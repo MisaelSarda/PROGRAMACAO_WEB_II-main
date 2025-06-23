@@ -31,13 +31,13 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link :href="route('pessoas.create')">
+                            <x-dropdown-link :href="route('pessoas.index')">
                                 {{ __('Cadastrar Pessoa') }}
                             </x-dropdown-link>
-                            <x-dropdown-link :href="route('documentos.create')">
+                            <x-dropdown-link :href="route('documentos.index')">
                                 {{ __('Cadastrar Documento') }}
                             </x-dropdown-link>
-                            <x-dropdown-link :href="route('regioes.create')">
+                            <x-dropdown-link :href="route('regioes.index')">
                                 {{ __('Cadastrar Região') }}
                             </x-dropdown-link>
                         </x-slot>
