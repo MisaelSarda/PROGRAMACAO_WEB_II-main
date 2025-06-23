@@ -20,7 +20,10 @@ class PessoaController extends Controller
 
     public function store(StorePessoaRequest $request)
     {
-        Pessoa::create($request->validated());
+        $data = $request->validated();
+        $data['vulnerabilidade'] = $request->input('vulnerabilidade');
+        
+        Pessoa::create($data);
         return redirect()->route('pessoas.index')->with('success', 'Pessoa cadastrada com sucesso.');
     }
 
@@ -31,7 +34,10 @@ class PessoaController extends Controller
 
     public function update(StorePessoaRequest $request, Pessoa $pessoa)
     {
-        $pessoa->update($request->validated());
+        $data = $request->validated();
+        $data['vulnerabilidade'] = $request->input('vulnerabilidade');
+        
+        $pessoa->update($data);
         return redirect()->route('pessoas.index')->with('success', 'Pessoa atualizada com sucesso.');
     }
 

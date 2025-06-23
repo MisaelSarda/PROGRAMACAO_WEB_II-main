@@ -11,12 +11,14 @@ class StorePessoaRequest extends FormRequest
         return true;
     }
 
-    public function rules(): array
-    {
-        return [
-            'nome' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'telefone' => 'required|string|max:20',
-        ];
-    }
+    public function rules()
+{
+    return [
+        'nome' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'telefone' => 'required|string|max:20',
+        'vulnerabilidade' => 'nullable|string',
+    ];
+}
+
 }

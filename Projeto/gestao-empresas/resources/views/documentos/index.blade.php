@@ -22,6 +22,7 @@
                     <th class="w-1/6 px-4 py-2">Validade</th>
                     <th class="w-1/6 px-4 py-2">Pessoa</th>
                     <th class="w-1/6 px-4 py-2">Região</th>
+                    <th class="w-1/6 px-4 py-2">Arquivo</th>
                     <th class="w-1/6 px-4 py-2">Ações</th>
                 </tr>
             </thead>
@@ -35,6 +36,13 @@
                         </td>
                         <td class="px-4 py-2">{{ $documento->pessoa->nome ?? '-' }}</td>
                         <td class="px-4 py-2">{{ $documento->regiao->nome ?? '-' }}</td>
+                        <td class="px-4 py-2">
+                            @if ($documento->arquivo)
+                                <a href="{{ asset('storage/' . $documento->arquivo) }}" target="_blank" class="text-blue-500 underline">Ver</a>
+                            @else
+                                -
+                            @endif
+                        </td>
                         <td class="px-4 py-2">
                             <a href="{{ route('documentos.edit', $documento->id) }}" class="text-blue-600 hover:underline">Editar</a> |
                             <form action="{{ route('documentos.destroy', $documento->id) }}" method="POST" class="inline">
