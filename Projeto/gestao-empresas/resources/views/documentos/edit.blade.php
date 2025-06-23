@@ -22,7 +22,7 @@
 
         <div>
             <label class="block text-sm font-medium text-gray-700">Data de Validade</label>
-            <input type="date" name="data_validade" value="{{ old('data_validade', $documento->data_validade ? date('Y-m-d', strtotime($documento->data_validade)) : '') }}" class="w-full border rounded px-3 py-2 shadow-sm">
+            <input type="date" name="data_validade" value="{{ old('data_validade', $documento->data_validade) }}" class="w-full border rounded px-3 py-2 shadow-sm">
             @error('data_validade')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
@@ -36,9 +36,7 @@
             <label class="block text-sm font-medium text-gray-700">Pessoa</label>
             <select name="pessoa_id" class="w-full border rounded px-3 py-2 shadow-sm">
                 @foreach($pessoas as $pessoa)
-                    <option value="{{ $pessoa->id }}" {{ $documento->pessoa_id == $pessoa->id ? 'selected' : '' }}>
-                        {{ $pessoa->nome }}
-                    </option>
+                    <option value="{{ $pessoa->id }}" {{ $documento->pessoa_id == $pessoa->id ? "selected" : "" }}>{{ $pessoa->nome }}</option>
                 @endforeach
             </select>
             @error('pessoa_id')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
@@ -48,9 +46,7 @@
             <label class="block text-sm font-medium text-gray-700">Região</label>
             <select name="regiao_id" class="w-full border rounded px-3 py-2 shadow-sm">
                 @foreach($regioes as $regiao)
-                    <option value="{{ $regiao->id }}" {{ $documento->regiao_id == $regiao->id ? 'selected' : '' }}>
-                        {{ $regiao->nome }}
-                    </option>
+                    <option value="{{ $regiao->id }}" {{ $documento->regiao_id == $regiao->id ? "selected" : "" }}>{{ $regiao->nome }}</option>
                 @endforeach
             </select>
             @error('regiao_id')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror

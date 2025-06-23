@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Models;
 
@@ -11,6 +11,7 @@ class Regiao extends Model
 
     protected $table = 'regioes'; 
 
-    // Habilita atribuição em massa para o campo 'nome'
-    protected $fillable = ['nome'];
+    protected $fillable = [
+        'nome',
+    ];
 }

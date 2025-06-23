@@ -6,7 +6,6 @@ use App\Models\Documento;
 use App\Models\Pessoa;
 use App\Models\Regiao;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreDocumentoRequest;
 
 class DocumentoController extends Controller
 {
@@ -23,10 +22,16 @@ class DocumentoController extends Controller
         return view('documentos.create', compact('pessoas', 'regioes'));
     }
 
-    public function store(StoreDocumentoRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->validated();
-        $data['data_validade'] = $request->input('data_validade');
+        $data = $request->validate([
+            'nome' => 'required|string|max:255',
+            'tipo' => 'required|string|max:255',
+            'data_validade' => 'nullable|date',
+            'arquivo' => 'nullable|file',
+            'pessoa_id' => 'required|exists:pessoas,id',
+            'regiao_id' => 'required|exists:regioes,id',
+        ]);
 
         if ($request->hasFile('arquivo')) {
             $data['arquivo'] = $request->file('arquivo')->store('documentos', 'public');
@@ -44,10 +49,16 @@ class DocumentoController extends Controller
         return view('documentos.edit', compact('documento', 'pessoas', 'regioes'));
     }
 
-    public function update(StoreDocumentoRequest $request, Documento $documento)
+    public function update(Request $request, Documento $documento)
     {
-        $data = $request->validated();
-        $data['data_validade'] = $request->input('data_validade');
+        $data = $request->validate([
+            'nome' => 'required|string|max:255',
+            'tipo' => 'required|string|max:255',
+            'data_validade' => 'nullable|date',
+            'arquivo' => 'nullable|file',
+            'pessoa_id' => 'required|exists:pessoas,id',
+            'regiao_id' => 'required|exists:regioes,id',
+        ]);
 
         if ($request->hasFile('arquivo')) {
             $data['arquivo'] = $request->file('arquivo')->store('documentos', 'public');

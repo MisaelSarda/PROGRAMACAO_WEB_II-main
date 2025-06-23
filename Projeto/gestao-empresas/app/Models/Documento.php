@@ -12,7 +12,7 @@ class Documento extends Model
     protected $fillable = [
         'nome',
         'tipo',
-        'validade',
+        'data_validade', 
         'arquivo',
         'pessoa_id',
         'regiao_id',
